@@ -33,6 +33,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "postbuild": "next-sitemap",
     "migrate:aff": "node scripts/assign-affiliates.js"
   }
 }
