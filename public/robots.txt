@@ -1,9 +1,3 @@
-# *
 User-agent: *
 Allow: /
-
-# Host
-Host: https://safe-love.vercel.app
-
-# Sitemaps
 Sitemap: https://safe-love.vercel.app/sitemap.xml
