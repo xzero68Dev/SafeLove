@@ -1,8 +1,7 @@
+// lib/posts.ts
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import html from 'remark-html';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 
@@ -32,7 +31,11 @@ export async function getPostBySlug(slug: string) {
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
 
-  const processed = await remark().use(html).process(content);
+  // ✅ dynamic import แก้ปัญหา ESM/CJS บน Vercel build
+  const { remark } = await import('remark');
+  const remarkHtml = (await import('remark-html')).default;
+
+  const processed = await remark().use(remarkHtml).process(content);
   const contentHtml = processed.toString();
 
   return {
