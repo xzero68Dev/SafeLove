@@ -1,10 +1,11 @@
 import Link from 'next/link';
+import { resolveAffiliateUrl } from '../lib/affResolver';
 
 export type Product = {
   brand: string;
   feature: string;
   price: string;
-  url: string; // affiliate link
+  url?: string;
 };
 
 export default function ProductTable({ items }: { items: Product[] }) {
@@ -21,18 +22,21 @@ export default function ProductTable({ items }: { items: Product[] }) {
             </tr>
           </thead>
           <tbody>
-            {items.map((p, i) => (
-              <tr key={i}>
-                <td className="font-medium">{p.brand}</td>
-                <td>{p.feature}</td>
-                <td>{p.price}</td>
-                <td>
-                  <Link href={p.url} className="btn btn-primary" target="_blank" rel="nofollow sponsored noopener">
-                    กดซื้อที่ Shopee
-                  </Link>
-                </td>
-              </tr>
-            ))}
+            {items.map((p, i) => {
+              const href = resolveAffiliateUrl(p);
+              return (
+                <tr key={i}>
+                  <td className="font-medium">{p.brand}</td>
+                  <td>{p.feature}</td>
+                  <td>{p.price}</td>
+                  <td>
+                    <Link href={href} className="btn btn-primary" target="_blank" rel="nofollow sponsored noopener">
+                      กดซื้อที่ Shopee
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
